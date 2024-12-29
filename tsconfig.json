@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es2016",
+
+    /* Modules */
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "./": ["src"],
+      "../*": ["src/*"]
+    },
+    "typeRoots": ["./src/types", "./node_modules/@types", "./types"],
+    "types": ["node"],
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*", "types"],
+  "exclude": ["node_modules/*"]
+}

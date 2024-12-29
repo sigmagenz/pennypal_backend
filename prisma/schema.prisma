@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String    @id @default(uuid())
+  user_code  String    @unique
+  fullname   String
+  username   String    @unique
+  email      String    @unique
+  phone      String?   @unique
+  password   String
+  avatar     String?
+  role       Role      @default(USER_ACCOUNT)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  expense    Expense[]
+  Income     Income[]
+  Budget     Budget[]
+  Setting    Setting[]
+}
+
+enum Role {
+  USER_ACCOUNT
+  ADMIN
+  SUPERADMIN
+}
+
+model Expense {
+  id             String   @id @default(uuid())
+  expense_code   String   @unique
+  expense_date   DateTime
+  expense_title  String
+  expense_amount Float
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  user_id        String
+  User           User?    @relation(fields: [user_id], references: [id])
+}
+
+model Income {
+  id            String   @id @default(uuid())
+  income_code   String   @unique
+  income_date   DateTime
+  income_title  String
+  income_amount Float
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  user_id       String
+  User          User?    @relation(fields: [user_id], references: [id])
+}
+
+model Budget {
+  id            String      @id @default(uuid())
+  budget_code   String      @unique
+  budget_month  BudgetMonth @default(JANUARY)
+  budget_title  String
+  budget_amount Float
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @updatedAt
+  user_id       String
+  User          User?       @relation(fields: [user_id], references: [id])
+}
+
+enum BudgetMonth {
+  JANUARY
+  FEBRUARY
+  MARCH
+  APRIL
+  MAY
+  JUNE
+  JULY
+  AUGUST
+  SEPTEMBER
+  OCTOBER
+  NOVEMBER
+  DECEMBER
+}
+
+model Setting {
+  id          String   @id @default(uuid())
+  currency    String
+  salary_date Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  user_id     String
+  User        User?    @relation(fields: [user_id], references: [id])
+}
