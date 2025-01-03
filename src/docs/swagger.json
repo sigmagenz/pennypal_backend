@@ -1,0 +1,16 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Pennypal REST API",
+    "version": "1.0.0",
+    "description": "Your joyful financial buddy."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3600",
+      "description": "Local server"
+    }
+  ],
+  "tags": [],
+  "paths": {}
+}
