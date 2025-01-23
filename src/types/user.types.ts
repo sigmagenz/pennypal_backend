@@ -14,3 +14,4 @@ export default interface IUserType {
   created_at?: Date;
   updated_at?: Date;
 }
+
