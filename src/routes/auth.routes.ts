@@ -1,11 +1,9 @@
-import { Router } from 'express'
-import { validateUser } from '../middlewares/validators/user.validator'
-import { register } from '../controllers/auth_controllers/signup.controller'
-import { login } from '../controllers/auth_controllers/signin.controller'
+import { Router } from 'express';
+import { validateUserInput } from '../middlewares/validators/user.validation';
+import { register } from '../controllers/auth_controller/register.controller';
 
-const userRouter = Router()
+const userRouter = Router();
 
-userRouter.post('/login', login)
-userRouter.post('/register', validateUser, register)
+userRouter.post('/register', validateUserInput, register);
 
-export default userRouter
+export default userRouter;

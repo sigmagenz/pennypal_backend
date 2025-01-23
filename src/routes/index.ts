@@ -1,12 +1,7 @@
-import { Router } from 'express'
-import userRouter from './user.routes'
-import authRouter from './auth.routes'
-import accountRouter from './account.routes'
+import { Router } from 'express';
+import authRouter from './auth.routes';
 
-const appRouter = Router()
+const appRouter = Router();
 
-appRouter.use('/api', accountRouter)
-appRouter.use('/api', userRouter)
-appRouter.use('/api/auth', authRouter)
-
-export default appRouter
+appRouter.use('/api/auth', authRouter);
+export default appRouter;
