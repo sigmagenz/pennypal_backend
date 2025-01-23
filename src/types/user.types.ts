@@ -11,6 +11,6 @@ export default interface IUserType {
   confirm_password?: string | null;
   avatar?: string | null;
   role?: Role;
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
 }

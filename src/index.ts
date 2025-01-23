@@ -1,5 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
+import appMiddleware from './middlewares';
 
 const app = express();
 const port: number =
@@ -9,3 +10,5 @@ app.listen(port, () => {
   console.log(`🍆 Welcome to Pennypal!`);
   console.log(`🍑 Listening on port ${port}`);
 });
+
+app.use(appMiddleware);
