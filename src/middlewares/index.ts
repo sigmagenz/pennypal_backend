@@ -7,7 +7,7 @@ const appMiddleware = express();
 
 appMiddleware.use(
   cors({
-    origin: 'http://localhost:3001',
+    origin: 'http://localhost:3000',
     credentials: true,
     preflightContinue: false,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
