@@ -50,17 +50,14 @@ export const verifyToken = async (
   }
 };
 
-export const authorizeRole = (requiredRole: Role) => {
+export const authorizeRoles = (requiredRoles: Role[]) => {
   return async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> => {
     try {
-      const userPayload = req.user as {
-        user_code: string;
-        role: Role;
-      };
+      const userPayload = req.user as { user_code: string; role?: Role };
 
       if (!userPayload?.user_code) {
         res.status(401).json({
@@ -73,15 +70,15 @@ export const authorizeRole = (requiredRole: Role) => {
       const user = await getUserService({ user_code: userPayload.user_code });
 
       if (!user) {
-        res.status(404).send({
+        res.status(404).json({
           message: 'User not found',
           data: null
         });
         return;
       }
 
-      if (user.role !== requiredRole) {
-        res.status(403).send({
+      if (!user.role || !requiredRoles.includes(user.role)) {
+        res.status(403).json({
           message: 'You do not have the required role to access this resource',
           data: null
         });
