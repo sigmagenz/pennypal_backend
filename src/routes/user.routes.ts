@@ -10,7 +10,7 @@ const userRouter = Router();
 userRouter.get('/me', verifyToken, me);
 userRouter.post('/user', validateUserInput, createUser);
 userRouter.get(
-  '/users',
+  '/user',
   verifyToken,
   authorizeRoles(['ADMIN', 'SUPER_ADMIN']),
   getAllUsers
