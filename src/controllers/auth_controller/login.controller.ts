@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
-import { getUserService } from '../../services/user_services/get_user.service';
+import { getUserService } from '../../services/user_services/get-user.service';
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { username, password } = req.body;

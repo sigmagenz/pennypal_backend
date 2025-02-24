@@ -5,8 +5,6 @@ export const getAllUsers = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  // req.user
-
   const user = req.user;
 
   if (!user) {

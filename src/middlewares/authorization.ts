@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { getUserService } from '../services/user_services/get_user.service';
+import { getUserService } from '../services/user_services/get-user.service';
 import IUserType from '../types/user.types';
 import { NextFunction, Request, Response } from 'express';
 import { Role } from '@prisma/client';
