@@ -3,11 +3,11 @@ import IUserType from '../../types/user.types';
 import { getUserRepository } from '../../repositories/user_repositories/get-user.repository';
 
 export const getUserService = async (
-  payload: Prisma.UserWhereUniqueInput
+  identifier: Prisma.UserWhereUniqueInput
 ): Promise<IUserType | null> => {
-  if (!payload) {
+  if (!identifier) {
     return null;
   }
 
-  return await getUserRepository(payload);
+  return await getUserRepository(identifier);
 };

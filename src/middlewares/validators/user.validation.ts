@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { userSchema } from './validation_schema/user_validation.schema';
+import { userSchema } from './validation_schema/user-validation.schema';
 import prisma from '../../config/prisma';
 import { z } from 'zod';
 
