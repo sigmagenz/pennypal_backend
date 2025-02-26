@@ -1,12 +1,16 @@
 import { Request, Response } from 'express';
 import { updateUserService } from '../../services/user_services/update-user.service';
 import { getUserService } from '../../services/user_services/get-user.service';
+import { UploadedFile } from 'express-fileupload';
+import { uploadFile } from '../../utils/upload-file';
+import path from 'path';
+import fs from 'fs';
 
 export const updateUser = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const { username, fullname, email, phone, password } = req.body;
-
+  const avatar = req.files?.profile_image as UploadedFile;
   try {
     const user = await getUserService({ id });
 
@@ -18,13 +22,33 @@ export const updateUser = async (req: Request, res: Response) => {
       });
     }
 
+    let uploadedAvatarPath: string | null = user?.avatar || null;
+
+    if (avatar && !Array.isArray(avatar)) {
+      const allowedExtensions = ['.png', '.jpg', '.jpeg'];
+      const destinationPath = `./public/uploads/avatars`;
+
+      uploadedAvatarPath = await uploadFile(
+        avatar,
+        destinationPath,
+        allowedExtensions
+      );
+
+      const existingAvatar = path.join(__dirname, `../../${user?.avatar}`);
+
+      if (fs.existsSync(existingAvatar)) {
+        fs.unlinkSync(existingAvatar);
+      }
+    }
+
     const updatedData = {
       user_code: user.user_code,
       username,
       fullname,
       email,
       phone,
-      password: user.password
+      password: user.password,
+      avatar: uploadedAvatarPath
     };
 
     const updatedUser = await updateUserService({ id }, updatedData);

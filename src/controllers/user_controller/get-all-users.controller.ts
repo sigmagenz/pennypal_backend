@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import { getAllUsersService } from '../../services/user_services/get-all-users.service';
+import { Role } from '@prisma/client';
 
 export const getAllUsers = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   const user = req.user;
+  const { role } = req.query;
 
   if (!user) {
     res.status(401).json({
@@ -23,21 +25,34 @@ export const getAllUsers = async (
     return;
   }
 
-  try {
-    const users = await getAllUsersService();
-    let filteredUsers;
+  if (role && !(role === 'USER_ACCOUNT' || role === 'ADMIN')) {
+    res.status(400).json({
+      success: false,
+      status: 400,
+      message: 'Invalid user role.'
+    });
+    return;
+  }
 
-    if (user.role === 'ADMIN') {
-      filteredUsers = users?.filter((user) => user.role === 'USER_ACCOUNT');
-    } else if (user.role === 'SUPER_ADMIN') {
-      filteredUsers = users;
+  try {
+    const userRole = role as Role;
+    const users = await getAllUsersService({ role: userRole });
+
+    if (!users) {
+      res.status(400).json({
+        success: false,
+        status: 400,
+        message: 'User not found.',
+        data: users
+      });
+      return;
     }
 
     res.status(201).json({
       success: true,
       status: 200,
       message: 'User fetched successfully',
-      data: filteredUsers
+      data: users
     });
   } catch (error) {
     if (error instanceof Error) {

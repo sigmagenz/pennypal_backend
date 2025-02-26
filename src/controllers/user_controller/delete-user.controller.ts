@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { deleteUserService } from '../../services/user_services/delete-user.service';
 import { getUserService } from '../../services/user_services/get-user.service';
+import path from 'path';
+import fs from 'fs';
 
 export const deleteUser = async (
   req: Request,
@@ -17,6 +19,22 @@ export const deleteUser = async (
         message: 'User not found'
       });
       return;
+    }
+
+    if (user?.avatar) {
+      const avatar_path = path.join(__dirname, `../../${user.avatar}`);
+
+      try {
+        fs.unlinkSync(avatar_path);
+      } catch (error) {
+        res.status(500).json({
+          success: false,
+          status: 500,
+          message: 'Error deleting avatar.',
+          error: error
+        });
+        return;
+      }
     }
 
     await deleteUserService({ id });
